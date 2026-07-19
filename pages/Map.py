@@ -22,13 +22,23 @@ coordinates = {
 }
 
 try:
-    response = requests.get("https://smart-hospital-backend-sdot.onrender.com")
+    response = requests.get("https://smart-hospital-backend-sdot.onrender.com/api/hospitals")
 
     if response.status_code == 200:
 
         result = response.json()
 
         hospitals = result["data"]
+        
+        for hospital in hospitals:
+          if "availableBeds" not in hospital:
+            hospital["availableBeds"] = hospital.get("generalBeds", 0)
+
+          if "icuBeds" not in hospital:
+            hospital["icuBeds"] = 0
+
+          if "ventilators" not in hospital:
+           hospital["ventilators"] = 0
 
         m = folium.Map(
             location=[26.8467, 80.9462],
