@@ -9,7 +9,7 @@ st.title("🏥 Smart Hospital Dashboard")
 
 # Fetch data from backend
 try:
-    response = requests.get("https://smart-hospital-backend-sdot.onrender.com")
+    response = requests.get("https://smart-hospital-backend-sdot.onrender.com/api/hospitals")
 
     if response.status_code != 200:
         st.error("Unable to fetch hospitals.")
