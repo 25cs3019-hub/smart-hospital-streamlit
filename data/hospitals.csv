@@ -1,0 +1,11 @@
+Hospital,City,Latitude,Longitude,ICU_Beds,Available_Beds,Ventilators,Ambulances
+AIIMS Delhi,Delhi,28.5672,77.2100,120,32,45,15
+Apollo Hospital,Delhi,28.5417,77.2837,90,18,30,10
+Fortis Gurgaon,Gurgaon,28.4595,77.0266,75,12,22,8
+Medanta,Gurgaon,28.4383,77.0406,110,40,38,12
+Max Noida,Noida,28.5670,77.3560,80,25,20,9
+KGMU,Lucknow,26.8695,80.9231,150,55,60,18
+SGPGI,Lucknow,26.7565,80.9365,130,48,52,15
+BHU Hospital,Varanasi,25.2677,82.9913,100,20,35,10
+RGIPT Health Center,Amethi,26.1532,81.7855,20,10,5,2
+District Hospital,Gorakhpur,26.7606,83.3732,60,15,18,6

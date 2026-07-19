@@ -1,0 +1,8 @@
+Ambulance,City,Status,ETA,Driver
+AMB-101,Lucknow,Available,5 min,Rajesh Kumar
+AMB-102,Delhi,On Duty,12 min,Amit Singh
+AMB-103,Gurgaon,Available,7 min,Rahul Verma
+AMB-104,Noida,Available,4 min,Sunil Yadav
+AMB-105,Varanasi,On Duty,15 min,Ankit Mishra
+AMB-106,Gorakhpur,Available,6 min,Pankaj Sharma
+AMB-107,Amethi,Available,8 min,Vivek Tiwari
