@@ -157,21 +157,30 @@ if st.button("🔍 Analyze Patient", width="stretch"):
 
     for action in actions:
         st.write(action)
-    {hospital['Score']}
+    
 # ---------------------------------------------------
 # Hospital Recommendation
 # ---------------------------------------------------
 
 try:
     response = requests.post(
-        "https://smart-hospital-backend-sdot.onrender.com",
-        json={
-            "city": "Lucknow"
-        }
+        "https://smart-hospital-backend-sdot.onrender.com/api/recommend",
+        json={"city": "Lucknow"}
     )
 
     if response.status_code == 200:
-        hospital = response.json()["data"][0]
+        result_data = response.json()
+
+        if result_data.get("data"):
+            hospital = result_data["data"][0]
+        else:
+            hospital = {
+                "hospitalName": "No Hospital Found",
+                "city": "-",
+                "availableBeds": 0,
+                "ventilators": 0
+            }
+
     else:
         hospital = {
             "hospitalName": "No Hospital Found",
@@ -197,110 +206,98 @@ st.success(f"""
 
 📍 **City:** {hospital['city']}
 
-🛏️ **Available Beds:** {hospital['availableBeds']}
+🛏️ **Available Beds:** {hospital.get('availableBeds', 0)}
 
-🫁 **Ventilators:** {hospital['ventilators']}
+🫁 **Ventilators:** {hospital.get('ventilators', 0)}
 """)
-""")
 
-    # ---------------------------------------------------
-    # Patient Dictionary
-    # ---------------------------------------------------
+# ---------------------------------------------------
+# Patient Dictionary
+# ---------------------------------------------------
 
-    patient = {
-        "name": patient_name,
-        "age": age,
-        "gender": gender,
-        "symptom": symptom,
-        "pain": pain,
-        "oxygen": oxygen,
-        "heart_rate": heart_rate,
-        "bp": systolic_bp,
-        "temperature": temperature,
-        "respiratory_rate": respiratory_rate,
-    }
+patient = {
+    "name": patient_name,
+    "age": age,
+    "gender": gender,
+    "symptom": symptom,
+    "pain": pain,
+    "oxygen": oxygen,
+    "heart_rate": heart_rate,
+    "bp": systolic_bp,
+    "temperature": temperature,
+    "respiratory_rate": respiratory_rate,
+}
 
-    # ---------------------------------------------------
-    # AI Medical Assistant
-    # ---------------------------------------------------
+# ---------------------------------------------------
+# AI Medical Assistant
+# ---------------------------------------------------
 
-    st.divider()
+st.divider()
 
-    st.subheader("🧠 AI Medical Assistant (Gemma 3)")
+st.subheader("🧠 AI Medical Assistant (Gemma 3)")
 
-    with st.spinner("Consulting AI..."):
-        try:
-            ai_response = get_ai_response(
-                patient,
-                result,
-                score
-            )
-
-            st.markdown(ai_response)
-
-        except Exception as e:
-
-            ai_response = (
-                "⚠️ Local AI is currently unavailable.\n\n"
-                "Patient has been analyzed successfully using the triage engine.\n"
-                "Please review the recommended hospital and emergency actions."
-            )
-
-            st.warning(ai_response)
-
-    # ---------------------------------------------------
-    # Generate Emergency PDF Report
-    # ---------------------------------------------------
-
-    st.divider()
-
+with st.spinner("Consulting AI..."):
     try:
-
-        pdf_file = create_report(
+        ai_response = get_ai_response(
             patient,
             result,
-            score,
-            hospital,
-            ai_response
+            score
         )
 
-        st.success("✅ Emergency report generated successfully!")
+        st.markdown(ai_response)
 
-        with open(pdf_file, "rb") as file:
+    except Exception:
 
-            st.download_button(
-                label="📄 Download Emergency Report",
-                data=file,
-                file_name="Emergency_Report.pdf",
-                mime="application/pdf",
-                width="stretch"
-            )
+        ai_response = (
+            "⚠️ Local AI is currently unavailable.\n\n"
+            "Patient has been analyzed successfully using the triage engine.\n"
+            "Please review the recommended hospital and emergency actions."
+        )
 
-    except Exception as e:
+        st.warning(ai_response)
 
-        st.error(f"PDF Generation Error: {e}")
-        
-            # ---------------------------------------------------
-    # Disclaimer
-    # ---------------------------------------------------
+# ---------------------------------------------------
+# Generate Emergency PDF Report
+# ---------------------------------------------------
 
-    st.divider()
+st.divider()
 
-    st.info("""
+try:
+
+    pdf_file = create_report(
+        patient,
+        result,
+        score,
+        hospital,
+        ai_response
+    )
+
+    st.success("✅ Emergency report generated successfully!")
+
+    with open(pdf_file, "rb") as file:
+
+        st.download_button(
+            label="📄 Download Emergency Report",
+            data=file,
+            file_name="Emergency_Report.pdf",
+            mime="application/pdf",
+            use_container_width=True
+        )
+
+except Exception as e:
+
+    st.error(f"PDF Generation Error: {e}")
+
+# ---------------------------------------------------
+# Disclaimer
+# ---------------------------------------------------
+
+st.divider()
+
+st.info("""
 ### 📢 Disclaimer
 
-#The AI recommendations are generated for demonstration purposes only.
+The AI recommendations are generated for demonstration purposes only.
 
-"""Always consult qualified medical professionals during a real emergency.
-)
-
-# ---------------------------------------------------
-# Footer
-# ---------------------------------------------------
-
-st.markdown("---")
-
-st.caption(
-    "© 2026 Smart Hospital Resource Network | AI Powered Emergency Healthcare"
-)
-"""
+Always consult qualified medical professionals during a real emergency.
+""")
