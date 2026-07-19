@@ -3,7 +3,7 @@ import requests
 def recommend_hospital(city="Lucknow"):
     try:
         response = requests.post(
-            "http://localhost:5000/api/recommend",
+            "https://smart-hospital-backend-sdot.onrender.com",
             json={"city": city}
         )
 

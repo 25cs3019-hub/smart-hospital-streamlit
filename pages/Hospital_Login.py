@@ -20,7 +20,7 @@ if st.button("Login", width="stretch"):
 
     try:
         response = requests.post(
-            "http://localhost:5000/api/hospitals/login",
+            "https://smart-hospital-backend-sdot.onrender.com",
             json=login_data
         )
 

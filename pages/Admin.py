@@ -11,7 +11,7 @@ st.set_page_config(
 st.title("🛠️ Smart Hospital Admin Dashboard")
 
 try:
-    response = requests.get("http://localhost:5000/api/hospitals")
+    response = requests.get("https://smart-hospital-backend-sdot.onrender.com")
 
     if response.status_code == 200:
 

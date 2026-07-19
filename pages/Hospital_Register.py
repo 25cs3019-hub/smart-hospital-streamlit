@@ -29,7 +29,7 @@ if st.button("Register Hospital", use_container_width=True):
 
     try:
         response = requests.post(
-            "http://localhost:5000/api/hospitals/register",
+            "https://smart-hospital-backend-sdot.onrender.com",
             json=hospital_data
         )
 

@@ -19,7 +19,7 @@ st.info(f"Hospital ID: {hospital_id}")
 
 try:
     response = requests.get(
-        f"http://localhost:5000/api/hospitals/{hospital_id}"
+        f"https://smart-hospital-backend-sdot.onrender.com/{hospital_id}"
     )
 
     if response.status_code != 200:
@@ -92,7 +92,7 @@ if st.button("💾 Update Resources", use_container_width=True):
 
     try:
         update = requests.put(
-            f"http://localhost:5000/api/hospitals/{hospital_id}",
+            f"https://smart-hospital-backend-sdot.onrender.com/api/hospitals/{hospital_id}",
             json=payload
         )
 

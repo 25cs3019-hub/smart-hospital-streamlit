@@ -164,7 +164,7 @@ if st.button("🔍 Analyze Patient", width="stretch"):
 
 try:
     response = requests.post(
-        "http://localhost:5000/api/recommend",
+        "https://smart-hospital-backend-sdot.onrender.com",
         json={
             "city": "Lucknow"
         }
