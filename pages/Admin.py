@@ -11,8 +11,8 @@ st.set_page_config(
 st.title("🛠️ Smart Hospital Admin Dashboard")
 
 try:
-    response = requests.get("https://smart-hospital-backend-sdot.onrender.com")
-
+    
+    response = requests.get("https://smart-hospital-backend-sdot.onrender.com/api/hospitals")
     if response.status_code == 200:
 
         result = response.json()
@@ -23,6 +23,14 @@ try:
         if hospitals:
 
             df = pd.DataFrame(hospitals)
+            if "availableBeds" not in df.columns:
+             df["availableBeds"] = df["generalBeds"] if "generalBeds" in df.columns else 0
+
+            if "icuBeds" not in df.columns:
+             df["icuBeds"] = 0
+
+            if "ventilators" not in df.columns:
+             df["ventilators"] = 0
 
             show = df[[
                 "hospitalName",
