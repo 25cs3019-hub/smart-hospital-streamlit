@@ -7,4 +7,3 @@ streamlit-folium
 scikit-learn
 requests
 pymongo
-ollamaplotly
